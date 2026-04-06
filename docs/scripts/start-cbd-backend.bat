@@ -24,6 +24,6 @@ python -c "import numpy; print('numpy OK:', numpy.__version__)" 2>nul || (
     exit /b 1
 )
 
-REM === Start backend ===
-cd /d C:\cbd-stone-llm\backend
-python -m uvicorn main:app --host 0.0.0.0 --port 451
+REM === Start backend (run from project root so backend.app imports resolve) ===
+cd /d C:\cbd-stone-llm
+python -m uvicorn backend.main:app --host 0.0.0.0 --port 451
