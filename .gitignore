@@ -1,0 +1,24 @@
+# API keys and secrets
+docs/openAI_api_key.txt
+*.env
+.env*
+
+# Python
+__pycache__/
+*.py[cod]
+*.pkl
+*.pyc
+
+# macOS
+.DS_Store
+
+# Node
+node_modules/
+dist/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
