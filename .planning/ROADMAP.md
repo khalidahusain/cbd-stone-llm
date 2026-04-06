@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Extraction & Safeguards** - LLM extraction engine, input validation, and all four clinical safety safeguards
 - [x] **Phase 3: Conversation Orchestration** - Multi-turn conversation loop, session state, follow-up questioning, and extraction confirmation
 - [x] **Phase 4: Frontend & Dashboard** - React desktop SPA with two-panel layout and full clinical dashboard
-- [ ] **Phase 5: Mobile Layout** - Responsive mobile layout with chat-first flow and collapsible cost table
+- [x] **Phase 5: Mobile Layout** - Responsive mobile layout with chat-first flow and collapsible cost table (completed 2026-04-06)
 
 ## Phase Details
 
@@ -98,12 +98,12 @@ Plans:
 **Success Criteria** (what must be TRUE):
   1. On mobile viewports, the interface opens in a chat-first layout with no dashboard panel visible initially; after the clinician has confirmed extracted data, a risk visualization panel appears above the chat
   2. The cost-weighted intervention table on mobile is hidden behind a clearly labeled expandable control and expands/collapses without breaking the layout or losing conversation state
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 **UI hint**: yes
 
 Plans:
 - [x] 05-01-PLAN.md — CollapsibleSection accordion component and MobileDashboard wrapper
-- [ ] 05-02-PLAN.md — App.tsx responsive layout conversion and mobile/desktop integration
+- [x] 05-02-PLAN.md — App.tsx responsive layout conversion and mobile/desktop integration
 
 ## Progress
 
@@ -116,4 +116,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. Extraction & Safeguards | 3/3 | Complete | 2026-04-06 |
 | 3. Conversation Orchestration | 3/3 | Complete | 2026-04-06 |
 | 4. Frontend & Dashboard | 4/4 | Complete | 2026-04-06 |
-| 5. Mobile Layout | 0/2 | Not started | - |
+| 5. Mobile Layout | 2/2 | Complete   | 2026-04-06 |
