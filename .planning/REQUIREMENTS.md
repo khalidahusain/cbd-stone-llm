@@ -108,13 +108,55 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| *(populated during roadmap creation)* | | |
+| INFR-01 | Phase 1 | Pending |
+| INFR-04 | Phase 1 | Pending |
+| INFR-05 | Phase 1 | Pending |
+| EXTR-02 | Phase 1 | Pending |
+| MODL-01 | Phase 1 | Pending |
+| MODL-02 | Phase 1 | Pending |
+| MODL-03 | Phase 1 | Pending |
+| MODL-04 | Phase 1 | Pending |
+| MODL-05 | Phase 1 | Pending |
+| MODL-06 | Phase 1 | Pending |
+| MODL-07 | Phase 1 | Pending |
+| EXTR-01 | Phase 2 | Pending |
+| EXTR-03 | Phase 2 | Pending |
+| EXTR-04 | Phase 2 | Pending |
+| EXTR-05 | Phase 2 | Pending |
+| SAFE-01 | Phase 2 | Pending |
+| SAFE-02 | Phase 2 | Pending |
+| SAFE-03 | Phase 2 | Pending |
+| SAFE-04 | Phase 2 | Pending |
+| SAFE-05 | Phase 2 | Pending |
+| INFR-02 | Phase 2 | Pending |
+| CHAT-01 | Phase 3 | Pending |
+| CHAT-02 | Phase 3 | Pending |
+| CHAT-03 | Phase 3 | Pending |
+| CHAT-04 | Phase 3 | Pending |
+| CHAT-05 | Phase 3 | Pending |
+| EXTR-06 | Phase 3 | Pending |
+| EXTR-07 | Phase 3 | Pending |
+| EXTR-08 | Phase 3 | Pending |
+| INFR-03 | Phase 3 | Pending |
+| FRNT-01 | Phase 4 | Pending |
+| FRNT-02 | Phase 4 | Pending |
+| FRNT-03 | Phase 4 | Pending |
+| FRNT-06 | Phase 4 | Pending |
+| DASH-01 | Phase 4 | Pending |
+| DASH-02 | Phase 4 | Pending |
+| DASH-03 | Phase 4 | Pending |
+| DASH-04 | Phase 4 | Pending |
+| DASH-05 | Phase 4 | Pending |
+| DASH-06 | Phase 4 | Pending |
+| DASH-07 | Phase 4 | Pending |
+| FRNT-04 | Phase 5 | Pending |
+| FRNT-05 | Phase 5 | Pending |
 
 **Coverage:**
-- v1 requirements: 38 total
-- Mapped to phases: 0
-- Unmapped: 38 ⚠️
+- v1 requirements: 43 total
+- Mapped to phases: 43
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-04-05*
-*Last updated: 2026-04-05 after initial definition*
+*Last updated: 2026-04-05 after roadmap creation — traceability populated*
