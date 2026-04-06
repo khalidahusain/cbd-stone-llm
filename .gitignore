@@ -2,19 +2,30 @@
 docs/openAI_api_key.txt
 *.env
 .env*
+!*.env.example
 
 # Python
 __pycache__/
 *.py[cod]
-*.pkl
 *.pyc
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
 
 # macOS
 .DS_Store
+Thumbs.db
 
-# Node
+# Node (for future frontend)
 node_modules/
-dist/
+frontend/dist/
 
 # Jupyter
 .ipynb_checkpoints/
@@ -22,3 +33,5 @@ dist/
 # IDE
 .vscode/
 .idea/
+*.swp
+*.swo

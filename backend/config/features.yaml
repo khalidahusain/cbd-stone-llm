@@ -1,0 +1,162 @@
+# CBD Stone LLM - Feature Schema
+# This file is the coupling point between the ML model and the LLM.
+# model_column values MUST match the pkl model's expected DataFrame columns exactly.
+# DO NOT edit model_column values without re-validating against pkl files.
+
+version: "1.0"
+
+# Risk tier thresholds (from existing visualization logic)
+risk_tiers:
+  - name: "low"
+    label: "CCY +/- IOC"
+    min: 0
+    max: 10
+    intervention: "CCY +/- IOC"
+  - name: "intermediate"
+    label: "MRCP"
+    min: 10
+    max: 44
+    intervention: "MRCP"
+  - name: "high"
+    label: "EUS"
+    min: 44
+    max: 90
+    intervention: "EUS"
+  - name: "very_high"
+    label: "ERCP"
+    min: 90
+    max: 100
+    intervention: "ERCP"
+
+# Cost values for probability-weighted cost calculation
+# Formula: base_cost + variable_cost * (probability / 100)
+cost_values:
+  IOC:
+    base_cost: 600
+    variable_cost: 4451
+  MRCP:
+    base_cost: 1215.08
+    variable_cost: 3620.92
+  ERCP:
+    base_cost: 4451
+    variable_cost: 0
+  EUS:
+    base_cost: 2986.58
+    variable_cost: 3566.92
+
+# Cholangitis fast-path message (ASGE 2019)
+cholangitis_message: "ASGE 2019 guidelines recommend all patients with cholangitis undergo ERCP as clinically appropriate."
+
+features:
+  - name: sex
+    model_column: "Sex"
+    type: categorical
+    required: true
+    inference_prohibited: true
+    allowed_values: ["Male", "Female"]
+    encoding: {"Male": 1, "Female": 0}
+    description: "Patient biological sex. Must be explicitly stated — do not infer from pronouns or clinical context."
+
+  - name: age
+    model_column: "Age"
+    type: numeric
+    required: true
+    valid_range:
+      min: 18
+      max: 120
+    unit: "years"
+    description: "Patient age at time of initial presentation."
+
+  - name: clinical_cholangitis
+    model_column: "Cholangitis"
+    type: boolean
+    required: false
+    encoding: {"YES": 1, "NO": 0}
+    description: "Clinical cholangitis per Tokyo Guidelines. Suspected (>=1 item in A + >=1 item in B or C) or definite (>=1 item in A, B, and C). Part A: systemic inflammation (fever >38C, WBC <4 or >10, CRP >=1). Part B: cholestasis (jaundice bilirubin >=2, abnormal liver enzymes >1.5x STD). Part C: imaging (biliary dilatation, etiology evidence)."
+    triggers_fast_path: true
+
+  - name: clinical_pancreatitis
+    model_column: "Pancreatitis"
+    type: boolean
+    required: false
+    encoding: {"YES": 1, "NO": 0}
+    description: "Clinical pancreatitis. Criteria: imaging evidence (CT or MRI/MRCP), lipase >3x upper limit of normal, characteristic abdominal pain."
+
+  - name: clinical_cholecystitis
+    model_column: "Cholecystitis"
+    type: boolean
+    required: false
+    encoding: {"YES": 1, "NO": 0}
+    description: "Clinical cholecystitis per Tokyo Guidelines 2018. Part A: local signs (Murphy's sign, RUQ mass/pain/tenderness). Part B: systemic (fever, elevated CRP, elevated WBC). Part C: imaging (findings characteristic of acute cholecystitis)."
+
+  - name: ast
+    model_column: "AST"
+    type: numeric
+    required: false
+    valid_range:
+      min: 0
+      max: 10000
+    unit: "U/L"
+    description: "First AST (aspartate aminotransferase) on presentation."
+
+  - name: alt
+    model_column: "ALT"
+    type: numeric
+    required: false
+    valid_range:
+      min: 0
+      max: 10000
+    unit: "U/L"
+    description: "First ALT (alanine aminotransferase) on presentation."
+
+  - name: alkaline_phosphatase
+    model_column: "ALP"
+    type: numeric
+    required: false
+    valid_range:
+      min: 0
+      max: 10000
+    unit: "U/L"
+    description: "First alkaline phosphatase on presentation."
+
+  - name: total_bilirubin
+    model_column: "T. Bilirubin"
+    type: numeric
+    required: false
+    strongly_recommended: true
+    valid_range:
+      min: 0
+      max: 100
+    unit: "mg/dL"
+    description: "First total bilirubin on presentation. Strongly recommended — prediction quality degrades without it, but clinician can override and proceed with imputation."
+
+  - name: abdominal_ultrasound_performed
+    model_column: "Abd US"
+    type: boolean
+    required: false
+    encoding: {"YES": 1, "NO": 0}
+    description: "Was an abdominal ultrasound performed? Imaging of interest is between initial presentation and prior to any procedures."
+
+  - name: cbd_stone_on_ultrasound
+    model_column: "CBD stone on Abd US"
+    type: boolean
+    required: false
+    encoding: {"YES": 1, "NO": 0}
+    description: "Was a bile duct stone (choledocholithiasis) found on ultrasound?"
+
+  - name: cbd_stone_on_ct
+    model_column: "CBD stone on CT scan"
+    type: boolean
+    required: false
+    encoding: {"YES": 1, "NO": 0}
+    description: "Was a bile duct stone (choledocholithiasis) found on CT scan?"
+
+  - name: charlson_comorbidity_index
+    model_column: "Charlson Comorbidity Index"
+    type: numeric
+    required: false
+    valid_range:
+      min: 0
+      max: 37
+    unit: "points"
+    description: "Charlson Comorbidity Index total points."

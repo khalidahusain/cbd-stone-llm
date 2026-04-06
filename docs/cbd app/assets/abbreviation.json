@@ -1,0 +1,17 @@
+{
+    "Record ID": "Record ID",
+    "Label": "Choledocholithiasis",
+    "Gender": "Sex",
+    "Clinical cholangitis (Tokyo Guidelines)      Patient must have a suspected diagnosis (\u22651 item in A + \u22651 item in B or C) or definite diagnosis (\u22651 item in A, B, and C) to meet entry criteria for severity grading, see table below:    Part A (Systemic inflammation)       1. Fever (>38\u00b0C/100.4\u00b0F) and/or shaking chills       2. Laboratory data: evidence of inflammatory response (WBC < 4 or >10 x1,000/\u03bcL and/or CRP \u22651 mg/dL)    Part B (Cholestasis)       1. Jaundice (total bilirubin \u22652 mg/dL)       2. Laboratory data: abnormal liver enzymes (ALP, \u03b3GTP, AST, ALT levels >1.5 x STD)    Part C (Imaging)       1. Biliary dilatation       2. Evidence of the etiology on imaging (stricture, stone, stent, etc.)     ALP alkaline phosphatase, ALT alanine aminotransferase, AST aspartate  aminotransferase, rGTP (GGT) r-glutamyltransferase, STD upper  limit of normal value": "Cholangitis",
+    "Clinical pancreatitis    Patient must meet the following criteria:     1. Imaging evidence of pancreatitis (CT or MRI/MRCP)     2. Lipase > 3 times upper limit of normal     3. Characteristic abdominal pain": "Pancreatitis",
+    "Clinical cholecystitis (Toyko guidelines 2018)    https://www.mdcalc.com/calc/10130/tokyo-guidelines-acute-cholecystitis-2018    Patient must have a suspected diagnosis (\u22651 item in A + \u22651 item in B or C) or definite diagnosis (\u22651 item in A, B, and C) to meet entry criteria for severity grading, see table below:    Part A (Local signs of inflammation)       1. Murphy's sign       2. Right upper abdominal quadrant mass, pain, or tenderness    Part B (Systemic signs of inflammation)        1. Fever        2. Elevated CRP        3. Elevated WBC count    Part C (Imaging)        1. Imaging findings characteristic of acute cholecystitis                *e.g. pericholecystic fluid, gallstones/debris.    Cited from Yokoe et al. [7]. Acute hepatitis, other acute abdominal  diseases, and chronic cholecystitis should be excluded  CRP C-reactive protein, RUQ right upper abdominal quadrant, WBC  white blood cell": "Cholecystitis",
+    "First AST aka AST on presentation (U/L)": "AST",
+    "First ALT aka ALT on presentation (U/L)": "ALT",
+    "First Alkaline Phosphatase aka alkaline phosphatase on presentation (U/L)": "ALP",
+    "First total bilirubin aka bilirubin on presentation (mg/dL)": "T. Bilirubin",
+    "Abdominal Ultrasound performed?    REMINDER: imaging of interest is between initial presentation and prior to any procedures (ie endoscopy, IR drain, surgery). ": "Abd US",
+    "Was a bile duct stone (choledocholithiasis) found on imaging? Check appropriate box if found on ultrasound, CT scan, and/or MRI/MRCP (choice=Ultrasound)": "CBD stone on Abd US",
+    "Was a bile duct stone (choledocholithiasis) found on imaging? Check appropriate box if found on ultrasound, CT scan, and/or MRI/MRCP (choice=CT scan)": "CBD stone on CT scan",
+    "Total points:": "Charlson Comorbidity Index",
+    "Age (at time of initial presentation)": "Age"
+}

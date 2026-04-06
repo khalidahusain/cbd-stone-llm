@@ -12,10 +12,10 @@ The build goes bottom-up: the validated scikit-learn GBM model is the foundation
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation** - YAML schema, model loading, and bare /predict inference endpoint
-- [ ] **Phase 2: Extraction & Safeguards** - LLM extraction engine, input validation, and all four clinical safety safeguards
-- [ ] **Phase 3: Conversation Orchestration** - Multi-turn conversation loop, session state, follow-up questioning, and extraction confirmation
-- [ ] **Phase 4: Frontend & Dashboard** - React desktop SPA with two-panel layout and full clinical dashboard
+- [x] **Phase 1: Foundation** - YAML schema, model loading, and bare /predict inference endpoint
+- [x] **Phase 2: Extraction & Safeguards** - LLM extraction engine, input validation, and all four clinical safety safeguards
+- [x] **Phase 3: Conversation Orchestration** - Multi-turn conversation loop, session state, follow-up questioning, and extraction confirmation
+- [x] **Phase 4: Frontend & Dashboard** - React desktop SPA with two-panel layout and full clinical dashboard
 - [ ] **Phase 5: Mobile Layout** - Responsive mobile layout with chat-first flow and collapsible cost table
 
 ## Phase Details
@@ -33,9 +33,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans:** 3 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Project scaffold, YAML feature schema, model file copy, and dependency configuration
-- [ ] 01-02-PLAN.md — SchemaLoader, InferenceService, and ValidationService with unit tests
-- [ ] 01-03-PLAN.md — FastAPI application with lifespan, /predict and /health endpoints, integration tests
+- [x] 01-01-PLAN.md — Project scaffold, YAML feature schema, model file copy, and dependency configuration
+- [x] 01-02-PLAN.md — SchemaLoader, InferenceService, and ValidationService with unit tests
+- [x] 01-03-PLAN.md — FastAPI application with lifespan, /predict and /health endpoints, integration tests
 
 ### Phase 2: Extraction & Safeguards
 **Goal**: The LLM extraction layer runs on top of the verified inference foundation, and all four clinical safety safeguards are enforced architecturally — the LLM cannot generate predictions, user input is isolated from system instructions, the schema drives null-by-default extraction, and every LLM output is scanned before it reaches the user.
@@ -47,7 +47,12 @@ Plans:
   3. User input containing injection patterns (e.g., "ignore previous instructions") is detected pre-LLM-call and rejected with a safe error message before reaching the system prompt
   4. Extracted values outside valid YAML-defined ranges (e.g., age=500, bilirubin=-3) are rejected by ValidationService with a user-facing error message before the state object is updated
   5. The OpenAI API key is stored and used server-side only; the frontend has no path to retrieve or observe it
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [x] 02-01-PLAN.md — ExtractionResult Pydantic schema, PromptBuilder, OpenAI client factory
+- [x] 02-02-PLAN.md — ExtractionService with OpenAI structured outputs and SafeguardService with injection defense + output scanning
+- [x] 02-03-PLAN.md — FastAPI wiring, /extract endpoint, architectural enforcement tests
 **UI hint**: no
 
 ### Phase 3: Conversation Orchestration
@@ -60,7 +65,12 @@ Plans:
   3. A server-side session dict (keyed by UUID) holds the authoritative state object; the frontend sends only a session ID and never authoritative clinical data
   4. Before the model runs, the system presents a structured summary of all extracted variables and requires explicit clinician confirmation; the model does not execute without that confirmation
   5. As the conversation progresses and new variables are confirmed, the prediction updates iteratively in the same session without resetting the conversation history
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [x] 03-01-PLAN.md — SessionStore with TTL cleanup, ReplyBuilder with Python templates, ChatRequest/ChatResponse schemas
+- [x] 03-02-PLAN.md — ConversationService orchestrator with state machine, merging, confirmation flow
+- [x] 03-03-PLAN.md — POST /chat endpoint, lifespan wiring, integration tests
 
 ### Phase 4: Frontend & Dashboard
 **Goal**: A working React desktop application presents the two-panel clinical interface — chat on the left, full dashboard on the right — and all dashboard elements (probability, risk bar, cost table, interpretation guidance, abbreviations) are visible simultaneously and update from every server response.
@@ -72,7 +82,13 @@ Plans:
   3. The cost-weighted intervention table (IOC, MRCP, ERCP, EUS with probability-weighted costs) is visible in the dashboard without any expansion action on desktop
   4. The interpretation guidance panel and abbreviations reference panel are always visible on desktop without scrolling or expanding
   5. A loading indicator is shown while LLM extraction and model inference are running; the dashboard updates in place when the response arrives without resetting the chat
-**Plans**: TBD
+**Plans:** 4 plans
+
+Plans:
+- [x] 04-01-PLAN.md — Vite + React + TypeScript + Tailwind scaffold, types, API client, ChatContext
+- [x] 04-02-PLAN.md — Chat panel: messages, input, typing indicator, confirm button
+- [x] 04-03-PLAN.md — Dashboard panel: probability, guidance bar, cost table, interpretation, abbreviations, cholangitis overlay
+- [x] 04-04-PLAN.md — App.tsx two-panel layout assembly
 **UI hint**: yes
 
 ### Phase 5: Mobile Layout
@@ -92,8 +108,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/3 | Planning complete | - |
-| 2. Extraction & Safeguards | 0/TBD | Not started | - |
-| 3. Conversation Orchestration | 0/TBD | Not started | - |
-| 4. Frontend & Dashboard | 0/TBD | Not started | - |
+| 1. Foundation | 3/3 | Complete | 2026-04-06 |
+| 2. Extraction & Safeguards | 3/3 | Complete | 2026-04-06 |
+| 3. Conversation Orchestration | 3/3 | Complete | 2026-04-06 |
+| 4. Frontend & Dashboard | 4/4 | Complete | 2026-04-06 |
 | 5. Mobile Layout | 0/TBD | Not started | - |

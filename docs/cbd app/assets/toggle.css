@@ -1,0 +1,56 @@
+/* toggle.css */
+
+.toggle {
+    width: 78px;
+    height: 20px;
+    border-radius: 18px;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-family: sans-serif;
+    padding: 0 4px;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-off {
+    background-color: #ccc;
+}
+
+.toggle-on {
+    background-color: #0288D1;
+}
+
+.toggle-text {
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 2;
+    transition: margin 0.3s ease;
+}
+
+.toggle-off .toggle-text {
+    margin-left: 38px;
+}
+
+.toggle-on .toggle-text {
+    margin-left: 1px;
+}
+
+.toggle-circle {
+    position: absolute;
+    top: 0px;
+    left: 1px;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    transition: left 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.toggle-on .toggle-circle {
+    left: 57px;
+}

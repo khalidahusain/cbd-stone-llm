@@ -1,0 +1,48 @@
+.form-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.form-label {
+    min-width: 120px;
+    font-weight: bold;
+}
+
+.prediction-card_prob {
+    padding: 20px;
+    text-align: center;
+    border-radius: 15px;
+    background-color: #27ae60;
+    color: white;
+    margin-bottom: 10px;
+    width: 50%;
+    font-size: 22px;
+    font-weight: bold;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+    letter-spacing: 1px;
+    transition: all 0.3s ease-in-out;
+    margin-left: auto;
+    margin-right: auto;
+    animation: popIn 0.5s ease-out;
+}
+
+/* Hover effect */
+.prediction-card_prob:hover {
+    transform: scale(1.05);
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+    80% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+    }
+}

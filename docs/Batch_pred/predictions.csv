@@ -1,0 +1,7 @@
+Record ID,Choledocholithiasis,Sex,Cholangitis,Pancreatitis,Cholecystitis,AST,ALT,ALP,T. Bilirubin,Abd US,CBD stone on Abd US,CBD stone on CT scan,Charlson Comorbidity Index,Age,Predicted Probability of CBD (%),Next Step Recommendation
+1,1,0,0.0,0.0,0.0,93,62,193,1.2,1,0,0,4.0,70,31.62,MRCP
+3,0,0,1.0,0.0,0.0,55,15,117,0.6,1,0,0,,55,35.42,ERCP
+4,0,1,,,,721,548,272,3.3,1,0,0,,66,70.21,EUS
+5,1,0,0.0,0.0,1.0,41,71,79,0.8,1,0,0,0.0,90,38.3,MRCP
+6,0,0,0.0,0.0,0.0,100,167,288,2.5,0,0,0,,45,54.69,EUS
+7,1,0,1.0,0.0,0.0,59,79,197,1.2,1,0,1,5.0,80,96.73,ERCP

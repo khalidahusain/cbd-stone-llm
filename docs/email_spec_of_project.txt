@@ -1,0 +1,40 @@
+Here is what we want to do for this application:
+
+Email thread:
+
+Hey Khalid,
+
+Thanks for chatting today and for your help with this project! To summarize our discussion: an LLM with multiple very safeguards that uses a yaml to reference the model is perfect. The prompt provided to users can be something like:
+
+Please tell me about your patient in whom you suspect a common bile duct stone. You can include their presenting characteristics (age, sex), pancreatobiliary pathology (acute cholangitis, cholecystitis, pancreatitis), liver labs (AST, ALT, ALP, total bilirubin), and/or whether a common bile duct stone was seen on initial imaging (abd US, CT abdomen) if available.
+
+Feel free to adjust that query if needed.
+
+If the user does not offer imaging, the LLM should ask them for it. Ask specifically about common bile duct stone presence - right now we don't care about CBD size or stones seen in the gallbladder etc. It's okay if they don't have it, the model will impute it. Even though it's not a very influential parameter, I don't think the model can impute sex, so the LLM should also ask for this. 
+
+For the desktop interface, the model should have a chat on one side, and the graphs of probability/cost effectiveness analysis etc on the other. For mobile, the main graph showing predicted probability and recommended interventions can be in the same column as the chat. 
+
+Let me know if you have other questions! Happy to clarify anything. 
+
+Best,
+Arpita
+
+---
+
+Thanks Arpita, 
+
+For my own reference writing this down:
+
+Mobile: When first opening webpage/app only chat with original query will populate, after information given by clinician - top half will be diagram, bottom half will be chat. 
+
+Desktop webpage: right 1/3rd of the screen will be  the anatomy diagram, cost associated with interventions, and abbreviations (image attached)
+Question @Arpita: does cost of interventions need to be shown on mobile? Maybe I can put a button that shows it?
+
+Let me know if you'd like anything to change.
+
+Best,
+Khalid
+
+---
+
+A button showing cost analysis would be very reasonable! The rest sounds good. Please make sure the interpretation guidance (screenshot attached, from the middle of the CDL web app) is shown.
