@@ -30,7 +30,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Missing non-required variables are handled by the iterative imputer without error; missing required variables (sex) cause the endpoint to return a clear "insufficient information" response rather than running the model
   4. When clinical cholangitis (Tokyo criteria) is present, the endpoint returns a cholangitis fast-path indicator alongside the ASGE ERCP recommendation
   5. The FastAPI application starts on port 450 with scikit-learn pinned at 1.5.2 and all six pkl files loaded in the lifespan event
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Project scaffold, YAML feature schema, model file copy, and dependency configuration
+- [ ] 01-02-PLAN.md — SchemaLoader, InferenceService, and ValidationService with unit tests
+- [ ] 01-03-PLAN.md — FastAPI application with lifespan, /predict and /health endpoints, integration tests
 
 ### Phase 2: Extraction & Safeguards
 **Goal**: The LLM extraction layer runs on top of the verified inference foundation, and all four clinical safety safeguards are enforced architecturally — the LLM cannot generate predictions, user input is isolated from system instructions, the schema drives null-by-default extraction, and every LLM output is scanned before it reaches the user.
@@ -87,7 +92,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/TBD | Not started | - |
+| 1. Foundation | 0/3 | Planning complete | - |
 | 2. Extraction & Safeguards | 0/TBD | Not started | - |
 | 3. Conversation Orchestration | 0/TBD | Not started | - |
 | 4. Frontend & Dashboard | 0/TBD | Not started | - |
