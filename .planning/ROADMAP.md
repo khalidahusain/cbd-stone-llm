@@ -102,7 +102,7 @@ Plans:
 **UI hint**: yes
 
 Plans:
-- [ ] 05-01-PLAN.md — CollapsibleSection accordion component and MobileDashboard wrapper
+- [x] 05-01-PLAN.md — CollapsibleSection accordion component and MobileDashboard wrapper
 - [ ] 05-02-PLAN.md — App.tsx responsive layout conversion and mobile/desktop integration
 
 ## Progress

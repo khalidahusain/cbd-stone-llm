@@ -57,8 +57,8 @@
 - [ ] **FRNT-01**: React (Vite) + TypeScript single-page application
 - [ ] **FRNT-02**: Desktop layout: left side chat interface, right side (~1/3) clinical dashboard
 - [ ] **FRNT-03**: All dashboard elements visible simultaneously on desktop (probability, risk bar, cost table, guidance, abbreviations)
-- [ ] **FRNT-04**: Mobile layout: chat-first initially, risk visualization on top after data collected
-- [ ] **FRNT-05**: Cost table behind expandable control on mobile
+- [x] **FRNT-04**: Mobile layout: chat-first initially, risk visualization on top after data collected
+- [x] **FRNT-05**: Cost table behind expandable control on mobile
 - [ ] **FRNT-06**: Loading indicator while LLM extraction and model inference run
 
 ### Backend & Infrastructure
@@ -149,8 +149,8 @@
 | DASH-05 | Phase 4 | Pending |
 | DASH-06 | Phase 4 | Pending |
 | DASH-07 | Phase 4 | Pending |
-| FRNT-04 | Phase 5 | Pending |
-| FRNT-05 | Phase 5 | Pending |
+| FRNT-04 | Phase 5 | Complete |
+| FRNT-05 | Phase 5 | Complete |
 
 **Coverage:**
 - v1 requirements: 43 total
