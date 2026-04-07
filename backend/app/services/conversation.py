@@ -135,7 +135,11 @@ class ConversationService:
     ) -> ChatResponse:
         """Handle turn after confirmation — auto-predict with updated data."""
         if not updated_fields:
-            reply = "No new information extracted. The current prediction is unchanged."
+            reply = (
+                "I wasn't able to map that to any of the model's clinical variables. "
+                "The current prediction is unchanged. You can provide labs (AST, ALT, ALP, bilirubin), "
+                "imaging results (ultrasound, CT), or clinical conditions (cholangitis, pancreatitis, cholecystitis)."
+            )
         else:
             result = self.inference.predict(session.extracted_features)
             if isinstance(result, InsufficientInfoResult):

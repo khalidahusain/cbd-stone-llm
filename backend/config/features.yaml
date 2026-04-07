@@ -165,7 +165,7 @@ features:
     type: boolean
     required: false
     encoding: {"YES": 1, "NO": 0}
-    description: "Was an abdominal ultrasound performed? Imaging of interest is between initial presentation and prior to any procedures."
+    description: "Was an abdominal ultrasound performed? EUS (endoscopic ultrasound) counts as abdominal ultrasound. Imaging of interest is between initial presentation and prior to any procedures."
 
   - name: cbd_stone_on_ultrasound
     model_column: "CBD stone on Abd US"
@@ -175,7 +175,7 @@ features:
     type: boolean
     required: false
     encoding: {"YES": 1, "NO": 0}
-    description: "Was a bile duct stone (choledocholithiasis) found on ultrasound?"
+    description: "Was a bile duct stone (choledocholithiasis) found on ultrasound? EUS (endoscopic ultrasound) findings count as ultrasound findings for this field."
 
   - name: cbd_stone_on_ct
     model_column: "CBD stone on CT scan"
