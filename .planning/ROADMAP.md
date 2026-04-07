@@ -119,7 +119,11 @@ Plans:
   3. Extraction feedback uses natural phrasing (e.g., "Got it: Male, 50 years old, AST 1000 U/L") and follow-up questions read conversationally (e.g., "Do you have the patient's total bilirubin level?")
   4. The prediction result message explains the risk naturally with the probability, risk tier, and recommended next step in plain clinical language
   5. Validation errors show the clinician-provided value and explain the valid range in plain language (e.g., "5000 is outside the valid range for Total Bilirubin (0-100 mg/dL). Could you double-check?")
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+- [ ] 06-01-PLAN.md — YAML schema extension with display_name, category, follow_up_question for all 13 features
+- [ ] 06-02-PLAN.md — ReplyBuilder rewrite, conversation call sites, validation errors with display_name
 
 ### Phase 7: Feature Importance Guidance
 **Goal**: After a prediction is made with missing variables, the system proactively suggests the single most impactful missing variable the clinician could provide to improve prediction accuracy — guiding clinical data collection without being prescriptive.
@@ -142,5 +146,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 3. Conversation Orchestration | v1.0 | 3/3 | Complete | 2026-04-06 |
 | 4. Frontend & Dashboard | v1.0 | 4/4 | Complete | 2026-04-06 |
 | 5. Mobile Layout | v1.0 | 2/2 | Complete | 2026-04-06 |
-| 6. Reply Builder Polish | v1.1 | 0/? | Not started | - |
+| 6. Reply Builder Polish | v1.1 | 0/2 | Not started | - |
 | 7. Feature Importance Guidance | v1.1 | 0/? | Not started | - |
