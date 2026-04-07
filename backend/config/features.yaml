@@ -175,7 +175,7 @@ features:
     type: boolean
     required: false
     encoding: {"YES": 1, "NO": 0}
-    description: "Was a bile duct stone (choledocholithiasis) found on ultrasound? EUS (endoscopic ultrasound) findings count as ultrasound findings for this field."
+    description: "Was a bile duct stone (choledocholithiasis) found on ultrasound? EUS (endoscopic ultrasound) findings count as ultrasound findings for this field. If the clinician says ultrasound/EUS was performed but does not mention a stone finding, extract as false (no stone found)."
 
   - name: cbd_stone_on_ct
     model_column: "CBD stone on CT scan"
@@ -185,7 +185,7 @@ features:
     type: boolean
     required: false
     encoding: {"YES": 1, "NO": 0}
-    description: "Was a bile duct stone (choledocholithiasis) found on CT scan?"
+    description: "Was a bile duct stone (choledocholithiasis) found on CT scan? If the clinician says a CT was performed but does not mention a stone finding, extract as false (no stone found)."
 
   - name: charlson_comorbidity_index
     model_column: "Charlson Comorbidity Index"

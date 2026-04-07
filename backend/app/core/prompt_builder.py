@@ -76,7 +76,7 @@ You NEVER state or imply any likelihood of a diagnosis.
 ## Rules
 
 1. If a value is NOT mentioned or clearly implied in the clinician's input, return null. Do NOT guess, estimate, or infer values.
-2. For boolean fields, return true only if the condition is explicitly confirmed. If uncertain, return null.
+2. For boolean fields, return true if the condition is explicitly confirmed, and return false if the condition is explicitly denied or ruled out (e.g., "no stone found", "negative for", "not present"). Only return null if the condition is not mentioned at all.
 3. Sex must be EXPLICITLY stated by the clinician. Do NOT infer sex from pronouns (he/she/they), names, or clinical context.
 4. If a value is clearly intended for a specific field but seems implausible (e.g., out of range), extract it anyway — do NOT add it to "ambiguous" or reassign it to a different field. The validation layer will catch out-of-range values. Only add a field to "ambiguous" if you genuinely cannot tell which field the clinician is referring to.
 5. If required fields (sex, age) are not found, add them to the "missing_required" list.
