@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Any, Optional
 
 
 class CostEstimate(BaseModel):
@@ -21,6 +21,7 @@ class ValidationErrorDetail(BaseModel):
     error: str
     field: str
     message: str
+    provided_value: Optional[Any] = None
 
 
 class InsufficientInfoResult(BaseModel):

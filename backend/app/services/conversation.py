@@ -124,7 +124,7 @@ class ConversationService:
             session.confirmed = False
         else:
             session.prediction = result
-            reply = self.replies.build_confirmed_reply(result)
+            reply = self.replies.build_confirmed_reply(result, session.extracted_features)
 
         session.message_history.append({"role": "assistant", "content": reply})
         self.sessions.update_session(session)
@@ -142,7 +142,7 @@ class ConversationService:
                 reply = self.replies.build_insufficient_info_reply(result.missing_required)
             else:
                 session.prediction = result
-                reply = self.replies.build_update_reply(result, updated_fields)
+                reply = self.replies.build_update_reply(result, updated_fields, session.extracted_features)
 
         session.message_history.append({"role": "assistant", "content": reply})
         self.sessions.update_session(session)

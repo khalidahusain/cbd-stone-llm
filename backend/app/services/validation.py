@@ -20,18 +20,22 @@ class ValidationService:
                 ))
                 continue
 
+            display = feature_def.display_name or feature_def.name
+
             if feature_def.type == "numeric" and feature_def.valid_range:
                 if not isinstance(value, (int, float)):
                     errors.append(ValidationErrorDetail(
                         error="validation_error",
                         field=name,
-                        message=f"{feature_def.name} must be a number",
+                        message=f"{display} must be a number",
+                        provided_value=value,
                     ))
                 elif value < feature_def.valid_range["min"] or value > feature_def.valid_range["max"]:
                     errors.append(ValidationErrorDetail(
                         error="validation_error",
                         field=name,
-                        message=f"{feature_def.name} value of {value} is outside the valid range ({feature_def.valid_range['min']}–{feature_def.valid_range['max']} {feature_def.unit or ''})".rstrip(),
+                        message=f"{value} is outside the valid range for {display} ({feature_def.valid_range['min']}-{feature_def.valid_range['max']} {feature_def.unit or ''})".rstrip(),
+                        provided_value=value,
                     ))
 
             if feature_def.type == "categorical" and feature_def.allowed_values:
@@ -39,7 +43,8 @@ class ValidationService:
                     errors.append(ValidationErrorDetail(
                         error="validation_error",
                         field=name,
-                        message=f"{feature_def.name} must be one of: {', '.join(feature_def.allowed_values)}",
+                        message=f"{display} must be one of: {', '.join(feature_def.allowed_values)}",
+                        provided_value=value,
                     ))
 
             if feature_def.type == "boolean" and feature_def.encoding:
@@ -48,7 +53,8 @@ class ValidationService:
                     errors.append(ValidationErrorDetail(
                         error="validation_error",
                         field=name,
-                        message=f"{feature_def.name} must be one of: {', '.join(allowed)}",
+                        message=f"{display} must be one of: {', '.join(allowed)}",
+                        provided_value=value,
                     ))
 
         return errors

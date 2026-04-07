@@ -57,6 +57,18 @@ def _make_service(schema, inference_service, validation_service, reply_builder, 
     )
 
 
+def _all_priority_extraction(**kwargs):
+    """Create ExtractionResult with all 6 priority fields plus any extras."""
+    defaults = dict(
+        sex="Male", age=55.0, total_bilirubin=3.2,
+        abdominal_ultrasound_performed=True,
+        cbd_stone_on_ultrasound=False,
+        cbd_stone_on_ct=False,
+    )
+    defaults.update(kwargs)
+    return ExtractionResult(**defaults)
+
+
 @pytest.mark.asyncio
 async def test_new_session_created(schema, inference_service, validation_service, reply_builder):
     svc = _make_service(schema, inference_service, validation_service, reply_builder)
@@ -88,22 +100,27 @@ async def test_transitions_to_awaiting_confirmation(schema, inference_service, v
     resp1 = await svc.handle_turn(ChatRequest(message="55 year old male"))
     sid = resp1.session_id
 
-    # Turn 2: bilirubin — should transition to awaiting_confirmation
-    extraction2 = ExtractionResult(total_bilirubin=3.2)
+    # Turn 2: bilirubin + imaging fields — all 6 priority fields now present → awaiting_confirmation
+    extraction2 = ExtractionResult(
+        total_bilirubin=3.2,
+        abdominal_ultrasound_performed=True,
+        cbd_stone_on_ultrasound=False,
+        cbd_stone_on_ct=False,
+    )
     mock_ext.extract = AsyncMock(return_value=extraction2)
-    resp2 = await svc.handle_turn(ChatRequest(session_id=sid, message="bilirubin is 3.2"))
+    resp2 = await svc.handle_turn(ChatRequest(session_id=sid, message="bilirubin 3.2, US done, no CBD stone"))
     assert resp2.conversation_phase == "awaiting_confirmation"
     assert "confirm" in resp2.message.lower()
 
 
 @pytest.mark.asyncio
 async def test_confirmation_triggers_prediction(schema, inference_service, validation_service, reply_builder):
-    extraction = ExtractionResult(sex="Male", age=55.0, total_bilirubin=3.2)
+    extraction = _all_priority_extraction()
     mock_ext = _make_mock_extraction(extraction)
     svc = _make_service(schema, inference_service, validation_service, reply_builder, mock_ext)
 
     # Turn 1: all priority fields
-    resp1 = await svc.handle_turn(ChatRequest(message="55M, bilirubin 3.2"))
+    resp1 = await svc.handle_turn(ChatRequest(message="55M, bilirubin 3.2, US done, no CBD stone"))
     sid = resp1.session_id
     assert resp1.conversation_phase == "awaiting_confirmation"
 
@@ -116,12 +133,12 @@ async def test_confirmation_triggers_prediction(schema, inference_service, valid
 
 @pytest.mark.asyncio
 async def test_post_confirmation_auto_predicts(schema, inference_service, validation_service, reply_builder):
-    extraction1 = ExtractionResult(sex="Male", age=55.0, total_bilirubin=3.2)
+    extraction1 = _all_priority_extraction()
     mock_ext = _make_mock_extraction(extraction1)
     svc = _make_service(schema, inference_service, validation_service, reply_builder, mock_ext)
 
     # Turn 1 + confirm
-    resp1 = await svc.handle_turn(ChatRequest(message="55M, bilirubin 3.2"))
+    resp1 = await svc.handle_turn(ChatRequest(message="55M, bilirubin 3.2, US done"))
     sid = resp1.session_id
     await svc.handle_turn(ChatRequest(session_id=sid, message="confirm"))
 
@@ -131,7 +148,8 @@ async def test_post_confirmation_auto_predicts(schema, inference_service, valida
     resp3 = await svc.handle_turn(ChatRequest(session_id=sid, message="AST is 120"))
     assert resp3.conversation_phase == "confirmed"
     assert resp3.prediction is not None
-    assert "Updated" in resp3.message or "ast" in resp3.message.lower()
+    assert "Updated" in resp3.message
+    assert "AST" in resp3.message
 
 
 @pytest.mark.asyncio
@@ -149,7 +167,7 @@ async def test_state_merge_none_doesnt_erase(schema, inference_service, validati
     mock_ext.extract = AsyncMock(return_value=extraction2)
     resp2 = await svc.handle_turn(ChatRequest(session_id=sid, message="bilirubin 3.2"))
     assert resp2.extracted_features["sex"] == "Male"
-    assert resp2.extracted_features["total_bilirubin"] == "3.2 mg/dL" or resp2.extracted_features.get("total_bilirubin")
+    assert resp2.extracted_features.get("total_bilirubin")
 
 
 @pytest.mark.asyncio
@@ -183,11 +201,11 @@ async def test_unknown_session_returns_error(schema, inference_service, validati
 @pytest.mark.asyncio
 async def test_confirmation_keyword_variants(schema, inference_service, validation_service, reply_builder):
     for keyword in ["yes", "confirm", "looks good", "correct", "go"]:
-        extraction = ExtractionResult(sex="Male", age=55.0, total_bilirubin=3.2)
+        extraction = _all_priority_extraction()
         mock_ext = _make_mock_extraction(extraction)
         svc = _make_service(schema, inference_service, validation_service, reply_builder, mock_ext)
 
-        resp1 = await svc.handle_turn(ChatRequest(message="55M, bili 3.2"))
+        resp1 = await svc.handle_turn(ChatRequest(message="55M, bili 3.2, US done, no CBD stone"))
         sid = resp1.session_id
         assert resp1.conversation_phase == "awaiting_confirmation"
 
@@ -197,11 +215,11 @@ async def test_confirmation_keyword_variants(schema, inference_service, validati
 
 @pytest.mark.asyncio
 async def test_non_keyword_during_confirmation_re_extracts(schema, inference_service, validation_service, reply_builder):
-    extraction1 = ExtractionResult(sex="Male", age=55.0, total_bilirubin=3.2)
+    extraction1 = _all_priority_extraction()
     mock_ext = _make_mock_extraction(extraction1)
     svc = _make_service(schema, inference_service, validation_service, reply_builder, mock_ext)
 
-    resp1 = await svc.handle_turn(ChatRequest(message="55M, bili 3.2"))
+    resp1 = await svc.handle_turn(ChatRequest(message="55M, bili 3.2, US done, no CBD stone"))
     sid = resp1.session_id
     assert resp1.conversation_phase == "awaiting_confirmation"
 
@@ -224,9 +242,14 @@ async def test_full_multi_turn_scenario(schema, inference_service, validation_se
     sid = r1.session_id
     assert r1.conversation_phase == "collecting"
 
-    # Turn 2: bilirubin → awaiting_confirmation
-    mock_ext.extract = AsyncMock(return_value=ExtractionResult(total_bilirubin=3.2))
-    r2 = await svc.handle_turn(ChatRequest(session_id=sid, message="bili 3.2"))
+    # Turn 2: bilirubin + imaging → awaiting_confirmation
+    mock_ext.extract = AsyncMock(return_value=ExtractionResult(
+        total_bilirubin=3.2,
+        abdominal_ultrasound_performed=True,
+        cbd_stone_on_ultrasound=False,
+        cbd_stone_on_ct=False,
+    ))
+    r2 = await svc.handle_turn(ChatRequest(session_id=sid, message="bili 3.2, US done, no CBD stone"))
     assert r2.conversation_phase == "awaiting_confirmation"
 
     # Turn 3: confirm → prediction
