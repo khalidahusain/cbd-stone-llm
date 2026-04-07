@@ -98,3 +98,19 @@ def test_sex_has_inference_prohibited(schema):
     feat = schema.get_feature_by_name("sex")
     assert feat is not None
     assert feat.inference_prohibited is True
+
+
+def test_display_name_loaded(schema):
+    feat = schema.get_feature_by_name("total_bilirubin")
+    assert feat.display_name == "Total Bilirubin"
+
+
+def test_category_loaded(schema):
+    feat = schema.get_feature_by_name("total_bilirubin")
+    assert feat.category == "labs"
+
+
+def test_follow_up_question_loaded(schema):
+    feat = schema.get_feature_by_name("total_bilirubin")
+    assert feat.follow_up_question is not None
+    assert "bilirubin" in feat.follow_up_question.lower()

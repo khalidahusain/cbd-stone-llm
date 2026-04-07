@@ -18,6 +18,9 @@ class FeatureDefinition:
     strongly_recommended: bool = False
     triggers_fast_path: bool = False
     inference_prohibited: bool = False
+    display_name: Optional[str] = None
+    category: Optional[str] = None
+    follow_up_question: Optional[str] = None
 
 
 @dataclass
@@ -97,6 +100,9 @@ class SchemaLoader:
                 strongly_recommended=feat_data.get("strongly_recommended", False),
                 triggers_fast_path=feat_data.get("triggers_fast_path", False),
                 inference_prohibited=feat_data.get("inference_prohibited", False),
+                display_name=feat_data.get("display_name"),
+                category=feat_data.get("category"),
+                follow_up_question=feat_data.get("follow_up_question"),
             ))
 
         risk_tiers = []
