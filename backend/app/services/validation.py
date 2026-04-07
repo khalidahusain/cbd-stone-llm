@@ -31,7 +31,7 @@ class ValidationService:
                     errors.append(ValidationErrorDetail(
                         error="validation_error",
                         field=name,
-                        message=f"{feature_def.name} must be between {feature_def.valid_range['min']} and {feature_def.valid_range['max']} {feature_def.unit or ''}".rstrip(),
+                        message=f"{feature_def.name} value of {value} is outside the valid range ({feature_def.valid_range['min']}–{feature_def.valid_range['max']} {feature_def.unit or ''})".rstrip(),
                     ))
 
             if feature_def.type == "categorical" and feature_def.allowed_values:
