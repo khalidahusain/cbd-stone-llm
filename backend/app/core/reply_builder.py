@@ -4,6 +4,10 @@ from backend.app.core.schema_loader import FeatureSchema
 from backend.app.schemas.extraction import ExtractionResult
 from backend.app.schemas.prediction import PredictionResult, ValidationErrorDetail
 
+# Fields that gate confirmation — must be collected before offering confirm
+CONFIRMATION_GATE = ["sex", "age", "total_bilirubin"]
+
+# Full priority ordering for post-prediction follow-ups (D-11)
 FOLLOW_UP_PRIORITY = [
     "sex", "age", "total_bilirubin",
     "abdominal_ultrasound_performed", "cbd_stone_on_ultrasound", "cbd_stone_on_ct",
@@ -50,25 +54,14 @@ class ReplyBuilder:
         if extraction.ambiguous:
             parts.append(f"Ambiguous (needs clarification): {', '.join(extraction.ambiguous)}")
 
-        # Check confirmation gate: all schema-required fields must be present
-        required_names = [f.name for f in self.schema.features if f.required]
-        missing_required = [
-            name for name in required_names
+        # Confirmation gate: sex, age, bilirubin must be present before offering confirm
+        missing_gate = [
+            name for name in CONFIRMATION_GATE
             if name not in session_features or session_features[name] is None
         ]
 
-        # Check priority fields for follow-up ordering
-        missing_priority = [
-            name for name in FOLLOW_UP_PRIORITY
-            if name not in session_features or session_features[name] is None
-        ]
-
-        if missing_required or missing_priority:
-            # Ask follow-up for first missing_priority, or first missing_required if no priority left
-            if missing_priority:
-                next_field = missing_priority[0]
-            else:
-                next_field = missing_required[0]
+        if missing_gate:
+            next_field = missing_gate[0]
             feat = self.schema.get_feature_by_name(next_field)
             question = (
                 feat.follow_up_question
