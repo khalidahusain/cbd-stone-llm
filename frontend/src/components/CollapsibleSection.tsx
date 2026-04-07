@@ -34,7 +34,7 @@ export function CollapsibleSection({ title, defaultOpen = false, children }: Col
         </svg>
       </button>
       <div
-        className={`overflow-hidden transition-all duration-200 ${
+        className={`overflow-hidden transition-all duration-200 [&>*>h3]:hidden ${
           isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
