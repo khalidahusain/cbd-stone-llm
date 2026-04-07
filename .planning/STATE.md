@@ -1,36 +1,36 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: milestone
-status: completed
-stopped_at: Completed 05-02-PLAN.md Task 1 (Task 2 pending human-verify)
-last_updated: "2026-04-06T20:06:07.897Z"
-last_activity: 2026-04-06 -- Phase 4 execution complete
+milestone: v1.1
+milestone_name: Conversation Polish
+status: defining_requirements
+stopped_at: Defining requirements for v1.1
+last_updated: "2026-04-06"
+last_activity: 2026-04-06 -- Milestone v1.1 started
 progress:
-  total_phases: 5
-  completed_phases: 3
-  total_plans: 15
-  completed_plans: 8
-  percent: 53
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-04-05)
+See: .planning/PROJECT.md (updated 2026-04-06)
 
 **Core value:** The ML model is the source of truth for clinical predictions — the LLM orchestrates input extraction and explanation but never generates or overrides clinical decisions.
-**Current focus:** Phase 5 — Mobile Layout
+**Current focus:** v1.1 Conversation Polish — human-readable chat messages
 
 ## Current Position
 
-Phase: 5 of 5 (Mobile Layout)
-Plan: 0 of TBD in current phase
-Status: Phase 4 complete, Phase 5 not yet planned
-Last activity: 2026-04-06 -- Phase 4 execution complete
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-04-06 — Milestone v1.1 started
 
-Progress: [████████░░] 80%
+Progress: [░░░░░░░░░░] 0%
 
 ## Performance Metrics
 
@@ -80,6 +80,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-06T20:06:07.894Z
-Stopped at: Completed 05-02-PLAN.md Task 1 (Task 2 pending human-verify)
+Last session: 2026-04-06
+Stopped at: All phases complete — v1.0 milestone done
 Resume file: None

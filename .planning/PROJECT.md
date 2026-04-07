@@ -8,6 +8,18 @@ A conversational, LLM-powered clinical decision support system for assessing the
 
 The ML model is the source of truth for clinical predictions — the LLM orchestrates input extraction and explanation but never generates or overrides clinical decisions.
 
+## Current Milestone: v1.1 Conversation Polish
+
+**Goal:** Make every chat message human-readable and clinician-friendly — no snake_case, no code-like formatting, no verbose imputation listings.
+
+**Target features:**
+- Human-readable field labels in all chat messages (e.g., "Total Bilirubin" not "total_bilirubin")
+- Smarter confirmation summary — show only provided values, group logically, brief imputation note
+- Polished extraction feedback — natural phrasing
+- Polished follow-up questions — conversational tone
+- Polished validation errors — clear, friendly messages
+- Polished prediction results — readable risk explanation
+
 ## Requirements
 
 ### Validated
@@ -127,4 +139,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-05 after initialization*
+*Last updated: 2026-04-06 after milestone v1.1 start*
