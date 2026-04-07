@@ -69,6 +69,31 @@
 - [ ] **INFR-04**: Application served on local network port 450
 - [ ] **INFR-05**: scikit-learn pinned at 1.5.2 to maintain pkl compatibility
 
+## v1.1 Requirements — Conversation Polish
+
+### Display Labels
+
+- [ ] **PLSH-01**: All chat messages use human-readable field names (e.g., "Total Bilirubin" not "total_bilirubin", "Cholangitis" not "clinical_cholangitis")
+
+### Confirmation Summary
+
+- [ ] **PLSH-02**: Confirmation summary shows only clinician-provided values grouped by category (Demographics, Labs, Imaging, Clinical Conditions)
+- [ ] **PLSH-03**: Fields that will be imputed are summarized in one brief line (e.g., "The model will estimate remaining values") rather than listed individually with "_(will be estimated by the model)_"
+
+### Reply Phrasing
+
+- [ ] **PLSH-04**: Extraction feedback uses natural phrasing (e.g., "Got it: Male, 50 years old, AST 1000 U/L" not "Extracted: **sex**: Male, **age**: 50.0 years")
+- [ ] **PLSH-05**: Follow-up questions read conversationally (e.g., "Do you have the patient's total bilirubin level?" not a static template string)
+- [ ] **PLSH-06**: Prediction result message reads naturally with clear risk explanation
+
+### Error Messages
+
+- [ ] **PLSH-07**: Validation errors show the provided value and explain the valid range in plain language (e.g., "5000 is outside the valid range for Total Bilirubin (0–100 mg/dL). Could you double-check?")
+
+### Guided Input
+
+- [ ] **PLSH-08**: After prediction, suggest the most impactful missing variable based on feature importance ordering, with a natural prompt (e.g., "Providing the alkaline phosphatase level would most improve this prediction's accuracy")
+
 ## v2 Requirements
 
 ### Enhanced Extraction
