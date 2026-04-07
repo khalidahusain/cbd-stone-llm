@@ -1,24 +1,20 @@
 # Roadmap: CBD Stone LLM
 
-## Overview
+## Milestones
 
-The build goes bottom-up: the validated scikit-learn GBM model is the foundation — nothing else runs until model loading is confirmed. From there, the LLM extraction engine and all four safety safeguards are built as one unit (security cannot be retrofitted before clinical use). Conversation orchestration and session state come next, followed by the full FastAPI API surface that wires all services together. The React desktop frontend is built last, against a stable API contract. Mobile responsive behavior closes out v1 once the desktop baseline is validated.
+- :white_check_mark: **v1.0 MVP** - Phases 1-5 (shipped 2026-04-06)
+- :construction: **v1.1 Conversation Polish** - Phases 6-7 (in progress)
 
 ## Phases
 
-**Phase Numbering:**
-- Integer phases (1, 2, 3): Planned milestone work
-- Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
-
-Decimal phases appear between their surrounding integers in numeric order.
+<details>
+<summary>v1.0 MVP (Phases 1-5) - SHIPPED 2026-04-06</summary>
 
 - [x] **Phase 1: Foundation** - YAML schema, model loading, and bare /predict inference endpoint
 - [x] **Phase 2: Extraction & Safeguards** - LLM extraction engine, input validation, and all four clinical safety safeguards
 - [x] **Phase 3: Conversation Orchestration** - Multi-turn conversation loop, session state, follow-up questioning, and extraction confirmation
 - [x] **Phase 4: Frontend & Dashboard** - React desktop SPA with two-panel layout and full clinical dashboard
-- [x] **Phase 5: Mobile Layout** - Responsive mobile layout with chat-first flow and collapsible cost table (completed 2026-04-06)
-
-## Phase Details
+- [x] **Phase 5: Mobile Layout** - Responsive mobile layout with chat-first flow and collapsible cost table
 
 ### Phase 1: Foundation
 **Goal**: The ML inference pipeline is verified end-to-end — the YAML schema is validated against pkl feature columns, all six model files load at startup, and a working /predict endpoint returns probability, risk tier, and recommended intervention for a given feature dict.
@@ -53,7 +49,6 @@ Plans:
 - [x] 02-01-PLAN.md — ExtractionResult Pydantic schema, PromptBuilder, OpenAI client factory
 - [x] 02-02-PLAN.md — ExtractionService with OpenAI structured outputs and SafeguardService with injection defense + output scanning
 - [x] 02-03-PLAN.md — FastAPI wiring, /extract endpoint, architectural enforcement tests
-**UI hint**: no
 
 ### Phase 3: Conversation Orchestration
 **Goal**: A complete multi-turn clinical conversation works end-to-end — clinicians can describe a patient in free text, the system asks targeted follow-up questions one at a time for missing required variables, maintains a persistent state object across turns, and presents a structured extraction summary for clinician confirmation before the model runs.
@@ -89,7 +84,6 @@ Plans:
 - [x] 04-02-PLAN.md — Chat panel: messages, input, typing indicator, confirm button
 - [x] 04-03-PLAN.md — Dashboard panel: probability, guidance bar, cost table, interpretation, abbreviations, cholangitis overlay
 - [x] 04-04-PLAN.md — App.tsx two-panel layout assembly
-**UI hint**: yes
 
 ### Phase 5: Mobile Layout
 **Goal**: The application is usable on mobile — chat is the primary entry point, risk visualization appears above the conversation after data is collected, and the cost table is accessible behind an expandable control to avoid information overload on small screens.
@@ -99,21 +93,54 @@ Plans:
   1. On mobile viewports, the interface opens in a chat-first layout with no dashboard panel visible initially; after the clinician has confirmed extracted data, a risk visualization panel appears above the chat
   2. The cost-weighted intervention table on mobile is hidden behind a clearly labeled expandable control and expands/collapses without breaking the layout or losing conversation state
 **Plans:** 2/2 plans complete
-**UI hint**: yes
 
 Plans:
 - [x] 05-01-PLAN.md — CollapsibleSection accordion component and MobileDashboard wrapper
 - [x] 05-02-PLAN.md — App.tsx responsive layout conversion and mobile/desktop integration
 
+</details>
+
+### v1.1 Conversation Polish (In Progress)
+
+**Milestone Goal:** Make every chat message human-readable and clinician-friendly — no snake_case, no code-like formatting, no verbose imputation listings.
+
+- [ ] **Phase 6: Reply Builder Polish** - Human-readable field names, natural phrasing for all chat message types, and clear validation errors
+- [ ] **Phase 7: Feature Importance Guidance** - After prediction, suggest the most impactful missing variable to improve accuracy
+
+## Phase Details
+
+### Phase 6: Reply Builder Polish
+**Goal**: Every chat message the system produces reads like a clinician wrote it — field names are human-readable, confirmation summaries are concise and categorized, extraction feedback and follow-ups use natural phrasing, and validation errors are clear and actionable.
+**Depends on**: Phase 5
+**Requirements**: PLSH-01, PLSH-02, PLSH-03, PLSH-04, PLSH-05, PLSH-06, PLSH-07
+**Success Criteria** (what must be TRUE):
+  1. All chat messages display human-readable field names (e.g., "Total Bilirubin", "Alkaline Phosphatase", "Cholangitis") — no snake_case or internal identifiers appear anywhere in user-facing text
+  2. The confirmation summary groups provided values by category (Demographics, Labs, Imaging, Clinical Conditions), omits fields the clinician did not provide, and summarizes imputed fields in one brief line rather than listing each one
+  3. Extraction feedback uses natural phrasing (e.g., "Got it: Male, 50 years old, AST 1000 U/L") and follow-up questions read conversationally (e.g., "Do you have the patient's total bilirubin level?")
+  4. The prediction result message explains the risk naturally with the probability, risk tier, and recommended next step in plain clinical language
+  5. Validation errors show the clinician-provided value and explain the valid range in plain language (e.g., "5000 is outside the valid range for Total Bilirubin (0-100 mg/dL). Could you double-check?")
+**Plans**: TBD
+
+### Phase 7: Feature Importance Guidance
+**Goal**: After a prediction is made with missing variables, the system proactively suggests the single most impactful missing variable the clinician could provide to improve prediction accuracy — guiding clinical data collection without being prescriptive.
+**Depends on**: Phase 6
+**Requirements**: PLSH-08
+**Success Criteria** (what must be TRUE):
+  1. After a prediction is returned, if any non-required variables were imputed, the system includes a natural-language suggestion identifying the single most impactful missing variable (e.g., "Providing the alkaline phosphatase level would most improve this prediction's accuracy")
+  2. The suggestion is based on a feature importance ordering derived from the GBM model (not arbitrary), and the suggested variable is one that was actually missing for this patient — not a variable already provided
+**Plans**: TBD
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 1. Foundation | 3/3 | Complete | 2026-04-06 |
-| 2. Extraction & Safeguards | 3/3 | Complete | 2026-04-06 |
-| 3. Conversation Orchestration | 3/3 | Complete | 2026-04-06 |
-| 4. Frontend & Dashboard | 4/4 | Complete | 2026-04-06 |
-| 5. Mobile Layout | 2/2 | Complete   | 2026-04-06 |
+| Phase | Milestone | Plans Complete | Status | Completed |
+|-------|-----------|----------------|--------|-----------|
+| 1. Foundation | v1.0 | 3/3 | Complete | 2026-04-06 |
+| 2. Extraction & Safeguards | v1.0 | 3/3 | Complete | 2026-04-06 |
+| 3. Conversation Orchestration | v1.0 | 3/3 | Complete | 2026-04-06 |
+| 4. Frontend & Dashboard | v1.0 | 4/4 | Complete | 2026-04-06 |
+| 5. Mobile Layout | v1.0 | 2/2 | Complete | 2026-04-06 |
+| 6. Reply Builder Polish | v1.1 | 0/? | Not started | - |
+| 7. Feature Importance Guidance | v1.1 | 0/? | Not started | - |

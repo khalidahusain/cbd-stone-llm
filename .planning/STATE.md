@@ -2,12 +2,12 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Conversation Polish
-status: defining_requirements
-stopped_at: Defining requirements for v1.1
+status: ready_to_plan
+stopped_at: Roadmap created for v1.1 — ready to plan Phase 6
 last_updated: "2026-04-06"
-last_activity: 2026-04-06 -- Milestone v1.1 started
+last_activity: 2026-04-06 -- v1.1 roadmap created (Phases 6-7)
 progress:
-  total_phases: 0
+  total_phases: 2
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-06)
 
 **Core value:** The ML model is the source of truth for clinical predictions — the LLM orchestrates input extraction and explanation but never generates or overrides clinical decisions.
-**Current focus:** v1.1 Conversation Polish — human-readable chat messages
+**Current focus:** v1.1 Conversation Polish — Phase 6 Reply Builder Polish
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-04-06 — Milestone v1.1 started
+Phase: 6 of 7 (Reply Builder Polish)
+Plan: 0 of ? in current phase
+Status: Ready to plan
+Last activity: 2026-04-06 — v1.1 roadmap created
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -36,7 +36,7 @@ Progress: [░░░░░░░░░░] 0%
 
 **Velocity:**
 
-- Total plans completed: 0
+- Total plans completed: 0 (v1.1)
 - Average duration: —
 - Total execution time: 0 hours
 
@@ -52,8 +52,6 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: —
 
 *Updated after each plan completion*
-| Phase 05-mobile-layout P01 | 1min | 2 tasks | 2 files |
-| Phase 05-mobile-layout P02 | 1min | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -62,11 +60,9 @@ Progress: [░░░░░░░░░░] 0%
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
-- [Init]: scikit-learn must be pinned at 1.5.2 — pkl files serialized at this version; cross-version loading breaks GBM models
-- [Init]: Build order is bottom-up: YAML schema + model loading → LLM extraction + safeguards → conversation orchestration → API surface → React frontend
-- [Init]: All four safeguards (injection defense, LLM isolation, null-by-default extraction, post-generation scan) ship in Phase 2 — not retrofitted later
-- [Phase 05-mobile-layout]: Used max-h + opacity CSS transition for accordion animation
-- [Phase 05-mobile-layout]: MobileDashboard defaults expanded on first prediction for immediate clinician visibility
+- [v1.0]: All chat messages built in backend/app/core/reply_builder.py — central file for Phase 6
+- [v1.0]: Field names from backend/config/features.yaml — needs display_name additions for PLSH-01
+- [v1.1 Roadmap]: PLSH-01 through PLSH-07 grouped in Phase 6 (all reply_builder.py changes); PLSH-08 separate in Phase 7 (requires model introspection)
 
 ### Pending Todos
 
@@ -74,12 +70,10 @@ None yet.
 
 ### Blockers/Concerns
 
-- [Phase 1]: RESOLVED — pkl feature column names confirmed and validated at startup; 36 tests pass
-- [Phase 2]: RESOLVED — system prompt length validated under 8000 chars; abbreviations included (LFTs, Tokyo criteria, etc.)
-- [Phase 2]: RESOLVED — ExtractionResult uses native bools, XML tag wrapping, 83 tests passing
+None yet.
 
 ## Session Continuity
 
 Last session: 2026-04-06
-Stopped at: All phases complete — v1.0 milestone done
+Stopped at: v1.1 roadmap created — ready to plan Phase 6
 Resume file: None

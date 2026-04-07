@@ -88,7 +88,7 @@
 
 ### Error Messages
 
-- [ ] **PLSH-07**: Validation errors show the provided value and explain the valid range in plain language (e.g., "5000 is outside the valid range for Total Bilirubin (0–100 mg/dL). Could you double-check?")
+- [ ] **PLSH-07**: Validation errors show the provided value and explain the valid range in plain language (e.g., "5000 is outside the valid range for Total Bilirubin (0-100 mg/dL). Could you double-check?")
 
 ### Guided Input
 
@@ -176,12 +176,19 @@
 | DASH-07 | Phase 4 | Pending |
 | FRNT-04 | Phase 5 | Complete |
 | FRNT-05 | Phase 5 | Complete |
+| PLSH-01 | Phase 6 | Pending |
+| PLSH-02 | Phase 6 | Pending |
+| PLSH-03 | Phase 6 | Pending |
+| PLSH-04 | Phase 6 | Pending |
+| PLSH-05 | Phase 6 | Pending |
+| PLSH-06 | Phase 6 | Pending |
+| PLSH-07 | Phase 6 | Pending |
+| PLSH-08 | Phase 7 | Pending |
 
 **Coverage:**
-- v1 requirements: 43 total
-- Mapped to phases: 43
-- Unmapped: 0 ✓
+- v1 requirements: 43 total, mapped: 43, unmapped: 0
+- v1.1 requirements: 8 total, mapped: 8, unmapped: 0
 
 ---
 *Requirements defined: 2026-04-05*
-*Last updated: 2026-04-05 after roadmap creation — traceability populated*
+*Last updated: 2026-04-06 after v1.1 roadmap creation — traceability updated*
