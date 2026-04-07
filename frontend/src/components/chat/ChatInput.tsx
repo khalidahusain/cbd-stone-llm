@@ -31,7 +31,7 @@ export default function ChatInput({ onSend, disabled }: Props) {
         disabled={disabled}
         placeholder="Describe the patient case..."
         rows={2}
-        className="flex-1 resize-none rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:bg-gray-50"
+        className="flex-1 resize-none rounded-lg border border-gray-300 px-3 py-2 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:bg-gray-50"
       />
       <button
         onClick={handleSubmit}
