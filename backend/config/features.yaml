@@ -50,6 +50,9 @@ cholangitis_message: "ASGE 2019 guidelines recommend all patients with cholangit
 features:
   - name: sex
     model_column: "Sex"
+    display_name: "Sex"
+    category: demographics
+    follow_up_question: "What is the patient's biological sex (male or female)?"
     type: categorical
     required: true
     inference_prohibited: true
@@ -59,6 +62,9 @@ features:
 
   - name: age
     model_column: "Age"
+    display_name: "Age"
+    category: demographics
+    follow_up_question: "How old is the patient?"
     type: numeric
     required: true
     valid_range:
@@ -69,6 +75,9 @@ features:
 
   - name: clinical_cholangitis
     model_column: "Cholangitis"
+    display_name: "Cholangitis"
+    category: clinical_conditions
+    follow_up_question: "Does the patient have signs of cholangitis?"
     type: boolean
     required: false
     encoding: {"YES": 1, "NO": 0}
@@ -77,6 +86,9 @@ features:
 
   - name: clinical_pancreatitis
     model_column: "Pancreatitis"
+    display_name: "Pancreatitis"
+    category: clinical_conditions
+    follow_up_question: "Is there clinical or lab evidence of pancreatitis?"
     type: boolean
     required: false
     encoding: {"YES": 1, "NO": 0}
@@ -84,6 +96,9 @@ features:
 
   - name: clinical_cholecystitis
     model_column: "Cholecystitis"
+    display_name: "Cholecystitis"
+    category: clinical_conditions
+    follow_up_question: "Does the patient have clinical cholecystitis?"
     type: boolean
     required: false
     encoding: {"YES": 1, "NO": 0}
@@ -91,6 +106,9 @@ features:
 
   - name: ast
     model_column: "AST"
+    display_name: "AST"
+    category: labs
+    follow_up_question: "What is the patient's AST level (U/L)?"
     type: numeric
     required: false
     valid_range:
@@ -101,6 +119,9 @@ features:
 
   - name: alt
     model_column: "ALT"
+    display_name: "ALT"
+    category: labs
+    follow_up_question: "What is the patient's ALT level (U/L)?"
     type: numeric
     required: false
     valid_range:
@@ -111,6 +132,9 @@ features:
 
   - name: alkaline_phosphatase
     model_column: "ALP"
+    display_name: "Alkaline Phosphatase"
+    category: labs
+    follow_up_question: "Do you have the patient's alkaline phosphatase level (U/L)?"
     type: numeric
     required: false
     valid_range:
@@ -121,6 +145,9 @@ features:
 
   - name: total_bilirubin
     model_column: "T. Bilirubin"
+    display_name: "Total Bilirubin"
+    category: labs
+    follow_up_question: "Do you have the patient's total bilirubin level (mg/dL)?"
     type: numeric
     required: false
     strongly_recommended: true
@@ -132,6 +159,9 @@ features:
 
   - name: abdominal_ultrasound_performed
     model_column: "Abd US"
+    display_name: "Abdominal Ultrasound"
+    category: imaging
+    follow_up_question: "Was an abdominal ultrasound performed?"
     type: boolean
     required: false
     encoding: {"YES": 1, "NO": 0}
@@ -139,6 +169,9 @@ features:
 
   - name: cbd_stone_on_ultrasound
     model_column: "CBD stone on Abd US"
+    display_name: "CBD Stone on Ultrasound"
+    category: imaging
+    follow_up_question: "Was a CBD stone seen on the abdominal ultrasound?"
     type: boolean
     required: false
     encoding: {"YES": 1, "NO": 0}
@@ -146,6 +179,9 @@ features:
 
   - name: cbd_stone_on_ct
     model_column: "CBD stone on CT scan"
+    display_name: "CBD Stone on CT"
+    category: imaging
+    follow_up_question: "Was a CBD stone seen on CT scan?"
     type: boolean
     required: false
     encoding: {"YES": 1, "NO": 0}
@@ -153,6 +189,9 @@ features:
 
   - name: charlson_comorbidity_index
     model_column: "Charlson Comorbidity Index"
+    display_name: "Charlson Comorbidity Index"
+    category: clinical_conditions
+    follow_up_question: "Do you have the patient's Charlson Comorbidity Index score?"
     type: numeric
     required: false
     valid_range:
