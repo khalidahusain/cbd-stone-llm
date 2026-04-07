@@ -4,12 +4,16 @@ from backend.app.core.schema_loader import FeatureSchema
 from backend.app.schemas.extraction import ExtractionResult
 from backend.app.schemas.prediction import PredictionResult, ValidationErrorDetail
 
-FOLLOW_UP_PRIORITY = ["sex", "age", "total_bilirubin"]
+FOLLOW_UP_PRIORITY = [
+    "sex", "age", "total_bilirubin",
+    "abdominal_ultrasound_performed", "cbd_stone_on_ultrasound", "cbd_stone_on_ct",
+]
 
-FOLLOW_UP_QUESTIONS = {
-    "sex": "What is the patient's biological sex (male or female)?",
-    "age": "How old is the patient?",
-    "total_bilirubin": "What is the patient's total bilirubin level (mg/dL)? This significantly improves prediction accuracy.",
+CATEGORY_LABELS = {
+    "demographics": "Demographics",
+    "labs": "Labs",
+    "imaging": "Imaging",
+    "clinical_conditions": "Clinical Conditions",
 }
 
 
@@ -35,70 +39,136 @@ class ReplyBuilder:
 
         new_features = extraction.to_feature_dict()
         if new_features:
-            extracted_items = []
+            lines = ["Got it:\n"]
             for name, value in new_features.items():
                 feat = self.schema.get_feature_by_name(name)
+                display = feat.display_name or name if feat else name
                 unit = f" {feat.unit}" if feat and feat.unit else ""
-                extracted_items.append(f"**{name}**: {value}{unit}")
-            parts.append("Extracted: " + ", ".join(extracted_items))
+                lines.append(f"- {display}: {value}{unit}")
+            parts.append("\n".join(lines))
 
         if extraction.ambiguous:
             parts.append(f"Ambiguous (needs clarification): {', '.join(extraction.ambiguous)}")
 
+        # Check confirmation gate: all schema-required fields must be present
+        required_names = [f.name for f in self.schema.features if f.required]
+        missing_required = [
+            name for name in required_names
+            if name not in session_features or session_features[name] is None
+        ]
+
+        # Check priority fields for follow-up ordering
         missing_priority = [
             name for name in FOLLOW_UP_PRIORITY
             if name not in session_features or session_features[name] is None
         ]
 
-        if missing_priority:
-            next_field = missing_priority[0]
-            parts.append(FOLLOW_UP_QUESTIONS[next_field])
+        if missing_required or missing_priority:
+            # Ask follow-up for first missing_priority, or first missing_required if no priority left
+            if missing_priority:
+                next_field = missing_priority[0]
+            else:
+                next_field = missing_required[0]
+            feat = self.schema.get_feature_by_name(next_field)
+            question = (
+                feat.follow_up_question
+                if feat and feat.follow_up_question
+                else f"Do you have the patient's {next_field}?"
+            )
+            parts.append(question)
             return "\n\n".join(parts), False
         else:
             return "\n\n".join(parts), True
 
     def build_confirmation_reply(self, session_features: dict) -> str:
-        """Build confirmation summary."""
-        parts = ["Here is what I've extracted. Please confirm this is correct:\n"]
+        """Build confirmation summary grouped by category."""
+        provided = {}  # category -> list of formatted strings
+        imputed = []   # display names of None features
 
         for feat in self.schema.features:
             value = session_features.get(feat.name)
+            display = feat.display_name or feat.name
+            category = feat.category or "other"
             if value is not None:
                 unit = f" {feat.unit}" if feat.unit else ""
-                parts.append(f"- **{feat.name}**: {value}{unit}")
+                provided.setdefault(category, []).append(f"- **{display}:** {value}{unit}")
             else:
-                parts.append(f"- **{feat.name}**: _(will be estimated by the model)_")
+                imputed.append(display)
+
+        parts = ["Here is what I've recorded. Please confirm this is correct:\n"]
+        for cat_key, label in CATEGORY_LABELS.items():
+            items = provided.get(cat_key, [])
+            if items:
+                parts.append(f"**{label}**")
+                parts.extend(items)
+
+        if imputed:
+            parts.append(f"\nThe model will estimate: {', '.join(imputed)}.")
 
         parts.append("\nType **confirm** to run the prediction, or provide corrections.")
         return "\n".join(parts)
 
-    def build_confirmed_reply(self, prediction: PredictionResult) -> str:
+    def build_confirmed_reply(self, prediction: PredictionResult, session_features: dict) -> str:
         """Build reply after prediction runs."""
-        return (
-            f"Prediction complete. "
-            f"The probability of a CBD stone is **{prediction.probability}%** "
-            f"({prediction.risk_tier} risk). "
-            f"Recommended next step: **{prediction.recommended_intervention}**.\n\n"
-            f"You can continue providing additional clinical information to refine the prediction."
-        )
+        parts = [
+            f"Based on the provided information, the estimated probability of a CBD stone is "
+            f"**{prediction.probability}%** ({prediction.risk_tier.capitalize()} risk). "
+            f"Recommended next step: **{prediction.recommended_intervention}**."
+        ]
 
-    def build_update_reply(self, prediction: PredictionResult, updated_fields: list[str]) -> str:
+        # D-11: next-best-variable prompt from priority list
+        missing_priority = [
+            name for name in FOLLOW_UP_PRIORITY
+            if name not in session_features or session_features[name] is None
+        ]
+        if missing_priority:
+            feat = self.schema.get_feature_by_name(missing_priority[0])
+            if feat and feat.follow_up_question:
+                q = feat.follow_up_question
+                parts.append(f"To refine this prediction further, {q[0].lower()}{q[1:]}")
+
+        return "\n\n".join(parts)
+
+    def build_update_reply(
+        self, prediction: PredictionResult, updated_fields: list[str], session_features: dict
+    ) -> str:
         """Build reply when prediction updates iteratively."""
-        fields_str = ", ".join(updated_fields)
-        return (
-            f"Updated {fields_str}. Prediction recalculated: "
-            f"**{prediction.probability}%** ({prediction.risk_tier} risk), "
-            f"recommended: **{prediction.recommended_intervention}**."
-        )
+        display_names = []
+        for name in updated_fields:
+            feat = self.schema.get_feature_by_name(name)
+            display_names.append(feat.display_name or name if feat else name)
+        fields_str = ", ".join(display_names)
+
+        parts = [
+            f"Updated {fields_str}. "
+            f"The estimated probability of a CBD stone is now "
+            f"**{prediction.probability}%** ({prediction.risk_tier.capitalize()} risk). "
+            f"Recommended next step: **{prediction.recommended_intervention}**."
+        ]
+
+        missing_priority = [
+            name for name in FOLLOW_UP_PRIORITY
+            if name not in session_features or session_features[name] is None
+        ]
+        if missing_priority:
+            feat = self.schema.get_feature_by_name(missing_priority[0])
+            if feat and feat.follow_up_question:
+                q = feat.follow_up_question
+                parts.append(f"To refine this prediction further, {q[0].lower()}{q[1:]}")
+
+        return "\n\n".join(parts)
 
     def build_validation_error_reply(self, errors: list[ValidationErrorDetail]) -> str:
         """Build reply when extracted values fail validation."""
-        parts = ["Some extracted values are outside valid ranges:\n"]
+        parts = []
         for err in errors:
-            parts.append(f"- **{err.field}**: {err.message}")
-        parts.append("\nCould you double-check these values?")
-        return "\n".join(parts)
+            parts.append(f"{err.message}. Could you double-check?")
+        return "\n\n".join(parts)
 
     def build_insufficient_info_reply(self, missing: list[str]) -> str:
         """Build reply when required fields still missing."""
-        return f"Cannot run the model yet — still missing required fields: {', '.join(missing)}."
+        display_names = []
+        for name in missing:
+            feat = self.schema.get_feature_by_name(name)
+            display_names.append(feat.display_name or name if feat else name)
+        return f"Cannot run the model yet -- still missing required fields: {', '.join(display_names)}."
