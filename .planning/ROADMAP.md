@@ -122,8 +122,8 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 06-01-PLAN.md — YAML schema extension with display_name, category, follow_up_question for all 13 features
-- [ ] 06-02-PLAN.md — ReplyBuilder rewrite, conversation call sites, validation errors with display_name
+- [x] 06-01-PLAN.md — YAML schema extension with display_name, category, follow_up_question for all 13 features
+- [x] 06-02-PLAN.md — ReplyBuilder rewrite, conversation call sites, validation errors with display_name
 
 ### Phase 7: Feature Importance Guidance
 **Goal**: After a prediction is made with missing variables, the system proactively suggests the single most impactful missing variable the clinician could provide to improve prediction accuracy — guiding clinical data collection without being prescriptive.
